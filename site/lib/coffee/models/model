@@ -1,0 +1,12 @@
+app = app or {}
+(->
+  "use strict"
+  
+  # {#name} Model
+  # ----------
+    
+  app.{#name} = Backbone.Model.extend(
+    defaults:      
+      someProperty: false
+  )
+)()

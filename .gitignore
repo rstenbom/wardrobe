@@ -1,0 +1,10 @@
+# Specific
+.DS_Store
+
+
+
+# Directory
+docs/
+node_modules/
+public/assets/css/*
+public/assets/js/*

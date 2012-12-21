@@ -1,0 +1,11 @@
+app = app or {}
+$ ->
+  "use strict"
+  
+  # {#name} View
+  # --------------
+    
+  app.{#name}View = Backbone.View.extend(        
+    initialize: ->      
+      # Do stuff
+  )

@@ -1,0 +1,48 @@
+#!/usr/bin/env coffee
+
+# Shelf CLI
+
+spawn = require('child_process').spawn
+sys = require 'sys'
+colors = require 'colors'
+rl = require 'readline'
+fs = require 'fs'
+
+# Process input args
+input = {}
+input.command = process.argv[2]
+
+# Writes the files, reads from the template file within each folder (the one without an extension)
+write = (name, type, collectionModel) ->
+	_name = name.charAt(0).toUpperCase() + name.slice(1); # uppercase name used when writing to file
+	data = fs.readFileSync './site/lib/coffee/'+type+'s/'+type, 'utf-8'		
+	if type != 'collection'
+		str = data.replace /\{\#name}/g, _name
+	else 
+		str = data.replace /\{\#name}/g, _name
+		str = str.replace /\{\#model}/g, collectionModel.charAt(0).toUpperCase() + collectionModel.slice(1);
+	fs.writeFileSync './site/lib/coffee/'+type+'s/' + _name + '.coffee', str				
+	console.log "Wrote to file ./site/lib/coffee/%s/%s.coffee".green, type, name	
+	return
+
+switch input.command	
+	when "help"		
+		console.log "\nGenerate component:".underline
+		console.log " wardrobe create [name:string] [view:boolean] [router:boolean] [collection:string <optional>]\n"		
+	when "create"
+		input.name = process.argv[3]
+		input.view = process.argv[4]
+		input.router = process.argv[5]
+		input.collection = process.argv[6]	
+		if process.argv.length > 5
+			console.log "Generating directory structure!"			
+			write input.name, 'model'
+			write input.name, 'view' if input.view == 'true'
+			write input.name, 'router' if input.router == 'true'
+			write input.collection, 'collection', input.name if input.collection
+			process.exit(0)
+
+		else
+			console.log "\nMust provide a name and true/false for view and router.".red
+			console.log "\nExample:\nwardrobe create ticket true false tickets (would generate a ticket model with a view, without a router and a collection named tickets\n"
+

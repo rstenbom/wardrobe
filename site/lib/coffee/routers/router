@@ -1,0 +1,13 @@
+app = app or {}
+(->
+  "use strict"
+  
+  # {#name} Router
+  # ----------
+  {#name}Router = Backbone.Router.extend(
+    routes:
+
+  )
+  app.{#name}Router = new {#name}Router()
+  Backbone.history.start()
+)()

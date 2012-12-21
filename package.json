@@ -1,0 +1,34 @@
+{
+	"name" : "LikeTV",
+	"description" : "LikeTV Web App",
+	"version" : "0.0.1",
+	"private" : true,
+	"dependencies" : {
+		"colors" : "*",
+		"send" : "*",		
+		"jade" : "*",
+		"stylus" : "*",		
+		"clean-css" : "*",
+		"uglify-js" : "2.x",
+		"mkdirp" : "*",
+		"coffee-script" : "*"		
+	},
+	"contributors" : [
+		{
+			"name" : "Robert Stenbom",
+			"email" : "robert.stenbom@hiq.se"
+		},
+		{
+			"name" : "Gustaf Elbander",
+			"email" : "gustaf.elbander@hiq.se"
+		}
+	],
+	"scripts" : {
+		"start" : "coffee liketv.coffee"
+	},
+	"devDependencies" : {
+		"mocha" : "*",
+		"should" : "*",
+		"coffeedoc" : "*"
+	}
+}

@@ -1,0 +1,16 @@
+app = app or {}
+(->
+  "use strict"
+  
+  # {#name} Collection
+  # ---------------
+    
+  {#name} = Backbone.Collection.extend(
+    
+    # Reference to this collection's model.
+    model: app.{#model}
+        
+  )
+    
+  app.{#name} = new {#name}()
+)()

@@ -1,0 +1,43 @@
+#!/usr/bin/env coffee
+
+# Native modules
+http = require 'http' 		# HTTP Server
+url  = require 'url'   		# Adds stuff to request object
+fs   = require 'fs'			# Filesystem functions
+
+# Custom modules
+send   = require 'send' 	# Serve Static files
+colors = require 'colors'	# Colorized output to the console for the hell of it
+
+# Custom modules used to create our one page html
+jade   = require 'jade'		# JavaScript template engine
+stylus = require 'stylus'	# Better CSS syntax 
+
+# Santas little helper. Minifies and shizzle.
+require('./helpers/Asset.coffee').make(require './config/assets.coffee')
+
+app = http.createServer (req, res) ->	
+	error = (err) ->
+		res.statusCode = err.status || 500
+		res.end err.message
+	redirect = () ->
+		res.statusCode = 301
+		res.setHeader 'Location' + req.url + '/'
+		res.end 'Redirecting to ' + req.url + '/'
+
+	if req.url.indexOf('/assets') == 0 
+		# So we've got a request for the assets folder. Serve the static files
+		send(req, url.parse(req.url).pathname).root(__dirname + '/public').on("error", error).on("directory", redirect).pipe res
+	else 
+		# Serve the site!		
+		data = fs.readFileSync __dirname + "/site/site.jade"
+		jadefn = jade.compile(data)
+		html = jadefn() # If you want to pass data to the jade template, create an object and pass it in here
+		res.writeHead 200,
+			"Content-Type": "text/html"
+			"Content-Length": html.length		
+		res.write html
+		res.end()
+
+app.listen(3000)
+console.log "Server started".magenta

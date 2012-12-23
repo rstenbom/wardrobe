@@ -11,7 +11,9 @@
 		"clean-css" : "*",
 		"uglify-js" : "2.x",
 		"mkdirp" : "*",
-		"coffee-script" : "*"		
+		"coffee-script" : "*",
+		"inflection" : "*",
+		"mongodb" : "*"		
 	},
 	"contributors" : [
 		{

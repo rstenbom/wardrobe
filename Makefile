@@ -14,6 +14,7 @@ clean:
 
 docs: 
 	@./node_modules/coffeedoc/bin/coffeedoc helpers/
+	@sed -ie 's/CoffeeDoc \&mdash\; Module Index/Wardrobe JS - Index/' docs/index.html 	
 
 watch:
 	@./node_modules/coffee-script/bin/coffee \

@@ -13,8 +13,11 @@ colors = require 'colors'	# Colorized output to the console for the hell of it
 jade   = require 'jade'		# JavaScript template engine
 stylus = require 'stylus'	# Better CSS syntax 
 
-# Santas little helper. Minifies and shizzle.
+# Santas little helpers. 
+## Minifies and shizzle.
 require('./helpers/Asset.coffee').make(require './config/assets.coffee')
+## Makes it easier for resources...
+ResourceHelper = require './helpers/Resource.coffee'
 
 app = http.createServer (req, res) ->	
 	error = (err) ->
@@ -28,11 +31,32 @@ app = http.createServer (req, res) ->
 	if req.url.indexOf('/assets') == 0 
 		# So we've got a request for the assets folder. Serve the static files
 		send(req, url.parse(req.url).pathname).root(__dirname + '/public').on("error", error).on("directory", redirect).pipe res
-	else 
+	else if req.url.indexOf('/resource') == 0	
+		ResourceHelper.route req.url, (err, data) ->
+			if err
+				e = JSON.stringify {error:err}
+				res.writeHead 400,
+					"Content-Type" : "application/json",
+					"Content-Length" : e.length
+				res.end(e)
+			else 
+				if data
+					datares = JSON.stringify(data)
+					res.writeHead 200,
+						"Content-Type" : "application/json",
+						"Content-Length" : datares.length
+					res.end datares
+				else 
+					msg = JSON.stringify "Does not exist."					
+					res.writeHead 200,
+						"Content-Type" : "application/json",
+						"Content-Length" : msg.length
+					res.end msg
+	else 		
 		# Serve the site!		
 		data = fs.readFileSync __dirname + "/site/site.jade"
 		jadefn = jade.compile(data)
-		html = jadefn() # If you want to pass data to the jade template, create an object and pass it in here
+		html = jadefn() # If you want to pass data to the jade template, create an object and pass it in here		
 		res.writeHead 200,
 			"Content-Type": "text/html"
 			"Content-Length": html.length		

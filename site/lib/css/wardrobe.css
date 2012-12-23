@@ -1,0 +1,74 @@
+/**
+ * Layout
+ **/
+
+
+/* Desktop Menu */
+@media screen and (min-width: 800px) {
+	#nav li.heading {
+		display: none;
+	}
+}
+
+/* Smartphones */
+@media screen and (max-width: 800px) {
+	.top-menu {
+		height: 50px;
+	}
+
+	.top-menu h3.logo {
+		padding: 5px;
+	}
+
+	ul#nav {
+		height: 50px;
+		width: 40px;
+		margin: 0;
+		position: absolute;
+		top: -10px;
+		margin-right: 5px;
+	}
+
+	#nav-wrap {
+		position: absolute;
+		top: 0;
+		width: 100%;
+		height: 50px;
+		box-shadow: 0px 2px 5px #ccc;
+		border-bottom: 1px solid #ccc;		
+	}
+
+	#nav-wrap ul li.menu-icon {
+		height: 50px;
+		width: 50px;
+		margin: 0;
+		padding: 2px;	
+		display: inline;			
+	}
+
+	#nav-wrap ul li.menu-icon .icon-bar {		
+		padding: 2px 15px;
+		background: #222;
+		margin: 4px;
+		display: block;
+		border-radius: 4px;
+	}
+
+	#nav-wrap ul {
+		position: absolute;
+		right: 0;
+	}
+
+	#nav .item {
+		display: none;
+	}
+}
+
+
+/**
+ *	Styles
+ **/
+
+.top-menu  a {
+	text-decoration: none;
+}

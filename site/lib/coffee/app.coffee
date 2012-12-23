@@ -1,4 +1,3 @@
-party = ['mange', 'fredde']
+jQuery(document).ready ($) ->
+  
 
-for who in party 
-	console.log who

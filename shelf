@@ -1,28 +1,53 @@
 #!/usr/bin/env coffee
 
-# Shelf CLI
+###
+Shelf 0.0.1
+============
+A micro CLI for wardrobejs. 
+@todo Coffeedoc currently ignores this file even if absolute path is passed, look into this.
 
+Example usage
+=============
+Generate a model for resource POST with no view but a router and collection "POSTS"
+
+    ./shelf create post false true posts    
+###
 spawn = require('child_process').spawn
 sys = require 'sys'
 colors = require 'colors'
 rl = require 'readline'
 fs = require 'fs'
 
-# Process input args
+### 
+Process command line arguments 
+###
 input = {}
 input.command = process.argv[2]
 
-# Writes the files, reads from the template file within each folder (the one without an extension)
-write = (name, type, collectionModel) ->
-	_name = name.charAt(0).toUpperCase() + name.slice(1); # uppercase name used when writing to file
+
+_write = (name, type, collectionModel) ->
+	###
+	Reads from the code template file within the correct component (e.g. models/model) and
+	and then outputs this to the new file "name"
+
+	    "name" name of the resource, e.g. post
+		"type" type of resource: model, view, router or collection
+		"collectionModel <optional>" name of model to create the collection for
+	###
+
+	 # Uppercase name used when writing to file
+	_name = name.charAt(0).toUpperCase() + name.slice(1);
 	data = fs.readFileSync './site/lib/coffee/'+type+'s/'+type, 'utf-8'		
 	if type != 'collection'
 		str = data.replace /\{\#name}/g, _name
 	else 
 		str = data.replace /\{\#name}/g, _name
 		str = str.replace /\{\#model}/g, collectionModel.charAt(0).toUpperCase() + collectionModel.slice(1);
-	fs.writeFileSync './site/lib/coffee/'+type+'s/' + _name + '.coffee', str				
-	console.log "Wrote to file ./site/lib/coffee/%s/%s.coffee".green, type, name	
+	
+	if fs.writeFileSync './site/lib/coffee/'+type+'s/' + _name + '.coffee', str				
+		console.log "Wrote to file ./site/lib/coffee/%s/%s.coffee".green, type, name
+	else 
+		process.exit 1 
 	return
 
 switch input.command	
@@ -36,12 +61,11 @@ switch input.command
 		input.collection = process.argv[6]	
 		if process.argv.length > 5
 			console.log "Generating directory structure!"			
-			write input.name, 'model'
-			write input.name, 'view' if input.view == 'true'
-			write input.name, 'router' if input.router == 'true'
-			write input.collection, 'collection', input.name if input.collection
-			process.exit(0)
-
+			_write input.name, 'model'
+			_write input.name, 'view' if input.view == 'true'
+			_write input.name, 'router' if input.router == 'true'
+			_write input.collection, 'collection', input.name if input.collection
+			process.exit 0
 		else
 			console.log "\nMust provide a name and true/false for view and router.".red
 			console.log "\nExample:\nwardrobe create ticket true false tickets (would generate a ticket model with a view, without a router and a collection named tickets\n"

@@ -1,6 +1,6 @@
 ###
 Asset Helper 0.1
-============
+================
 
 These methods are used to concatinate and minify all your assets.
 ###
@@ -13,7 +13,7 @@ uglify   = require 'uglify-js'
 CoffeeScript = require 'coffee-script'
 
 class AssetHelper	
-	checkStructure: (structure) ->					
+	__checkStructure: (structure) ->					
 		###
 		Checks if the given paths exists, will create the directories recursively if non existant. 
 
@@ -29,7 +29,7 @@ class AssetHelper
 			if ! exists 				
 				mkdirp.sync dir
 
-	write: (file, contents) ->
+	__write: (file, contents) ->
 		###
 		Write contents to file, this will DELETE the file if it already exists, use with __caution__
 		    
@@ -42,7 +42,7 @@ class AssetHelper
 		exists = fs.existsSync file					  	
 		fs.unlinkSync file if exists
 		fs.writeFileSync file, contents			
-	concatAndStringify: (files) ->
+	__concatAndStringify: (files) ->
 		###
 		Returns a string of all the files concatinated together
 		    
@@ -80,14 +80,14 @@ class AssetHelper
 		    AssetHelper.make [objects], -> () 		    	
 
 		###			
-		@checkStructure()
+		@__checkStructure()
 		for object in array
 			switch object.type 
 				when "css"
 					files = object.files					
-					css = @concatAndStringify(files);		
+					css = @__concatAndStringify(files);		
 					css = cleanCSS.process(css) if object.actions.indexOf('minify') > -1			
-					@write object.to + object.outputFile, css
+					@__write object.to + object.outputFile, css
 				when "javascript"					
 					files = object.files
 					i = 0
@@ -100,27 +100,27 @@ class AssetHelper
 							newfile = files[i].substr(0, files[i].lastIndexOf(".")) + ".js";
 							coffee = fs.readFileSync files[i], 'utf-8'							
 							jscript = CoffeeScript.compile coffee							
-							@write(newfile, jscript)							
+							@__write(newfile, jscript)							
 							files[i] = newfile
 						i++
-					js = @concatAndStringify(files);										
-					@write object.to + object.outputFile, js					
+					js = @__concatAndStringify(files);										
+					@__write object.to + object.outputFile, js					
 					# @todo do this using the uglifiers api instead so we dont have to write the file twicej 
 					if object.actions.indexOf('minify') > -1 
 						output = uglify.minify object.to + object.outputFile					
-						@write object.to + object.outputFile, output.code	
+						@__write object.to + object.outputFile, output.code	
 					# @todo Clean up the lib dir from javascript files compiled from coffee											
 				when "stylus"										
 					files = object.files
 					output = '';		
-					stylusString = @concatAndStringify(files);
+					stylusString = @__concatAndStringify(files);
 					stylus.render stylusString,
 					  filename: object.outputFile
 					, (err, css) ->
 					  throw err if err
 					  css = cleanCSS.process(css) if object.actions.indexOf('minify') > -1 					  	
 					  output += css
-					@write object.to + object.outputFile, output	  					  
+					@__write object.to + object.outputFile, output	  					  
 
 		if (typeof fn == typeof(Function)) 
 			fn()

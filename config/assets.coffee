@@ -1,6 +1,6 @@
 assets = [
 	# skeleton.css		
-		'files' : ['./site/lib/css/base.css', './site/lib/css/skeleton.css', './site/lib/css/layout.css'],
+		'files' : ['./site/lib/css/base.css', './site/lib/css/skeleton.css', './site/lib/css/layout.css', './site/lib/css/wardrobe.css'],
 		'actions' : ['minify'],			
 		'type' : 'css',		
 		'to' : 'public/assets/css/',					

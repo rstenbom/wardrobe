@@ -8,13 +8,11 @@
     $ make docs
 
 ### Start the server
-    $ coffee liketv.coffee
+    $ ./start
 
-# Using Wardrobe (CLI)
+# Using Shelf (CLI)
 
-Wardrobe is a small CLI written to be used with LikeTV. The current version only allows you to generate a structure of files for components (collection + model + router + view)
-
-Pass a boolean deciding wether to generate view and router. 
+Shelf is a _micro_ CLI. The current version only allows you to generate a structure of files for components (collection + model + router + view)
 
 Usage:
     

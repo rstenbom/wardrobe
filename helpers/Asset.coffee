@@ -1,7 +1,10 @@
 ###
 Asset Helper 0.1
 ================
+__Example usage__
 
+    require('./helpers/Asset.coffee').make(require './config/assets.coffee')
+    
 These methods are used to concatinate and minify all your assets.
 ###
 fs       = require 'fs'

@@ -9,7 +9,7 @@ vows.describe('Division by Zero').addBatch({
         topic: function () { return 42 / 0 },
 
         'we get Infinity': function (topic) {
-            assert.equal (topic, Infinity);
+            assert.equal (topic, 123);
         }
     },
     'but when dividing zero by zero': {

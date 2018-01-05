@@ -25,7 +25,7 @@ Example Usage:
 The example would generate a model, view and a collection named episodes.
 
 # Tests
-All tests are to be written using mocha (tdd interface http://visionmedia.github.com/mocha/#tdd-interface) and CoffeeScript
+All tests are to be written using mocha (tdd interface https://mochajs.org/#tdd) and CoffeeScript
 
     $ make test
 
